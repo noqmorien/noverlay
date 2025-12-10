@@ -6,7 +6,7 @@ NoqMorien Personal Gentoo Linux Overlay
 ## Installation
 
 For installation you need to install `app-eselect/eselect-repository` first
-by these following these commands
+by following these commands
 
 ```sh
 emerge -av app-eselect/eselect-repository
