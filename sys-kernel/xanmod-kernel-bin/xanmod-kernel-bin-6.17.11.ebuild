@@ -1,3 +1,5 @@
+# Copyright 2020-2025 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
@@ -8,7 +10,12 @@ XANMOD_RELD="20251207"
 XANMOD_RELF="g8f4f238"
 
 MY_PV="${PV}-"
-
+DESCRIPTION="XanMod is a general-purpose Linux kernel distribution with custom settings and new features. Built to provide a stable, smooth and solid system experience."
+HOMEPAGE="
+	https://xanmod.org/
+	https://sourceforge.net/projects/xanmod/
+"
+LICENSE="GPL-2"
 KEYWORDS="-* ~amd64"
 SLOT="0"
 
@@ -25,6 +32,7 @@ SRC_URI="
 RESTRICT="mirror strip"
 
 RDEPEND="
+	!sys-kernel/xanmod-kernel:${SLOT}
 	dracut? ( sys-kernel/dracut )
 "
 
@@ -46,9 +54,13 @@ pkg_postinst() {
 	if use dracut ; then
 		if use x64v2; then
 			MY_PV="${MY_PV}${XANMOD_REL_V2}"
-		else
+		elif use x64v3; then
 			MY_PV="${MY_PV}${XANMOD_REL_V3}"
+		else
+			ewarn "neither x64v2 or x64v3 use flags is not enabled!"
+			die
 		fi
+
 		einfo "Generating initramfs for kernel: ${MY_PV}"
 
 		if dracut -f --kver "${MY_PV}" ; then
