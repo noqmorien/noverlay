@@ -9,7 +9,7 @@ XANMOD_RELF="ge9b99b1"
 
 MY_PV="${PV}-"
 
-KEYWORDS="-* amd64"
+KEYWORDS="-* ~amd64"
 SLOT="0"
 
 IUSE="+dracut +x64v3 x64v2"
