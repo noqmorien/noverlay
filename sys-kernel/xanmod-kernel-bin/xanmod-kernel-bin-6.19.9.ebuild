@@ -3,26 +3,36 @@
 
 EAPI=8
 
-K_VER="6.18-8.1"
-K_REL="1"
+XANMOD_REL_V2="x64v2-xanmod1"
+XANMOD_REL_V3="x64v3-xanmod1"
 
-MY_PV="${PV}-${K_REL}-liquorix-amd64"
-DESCRIPTION="Liquorix is an enthusiast Linux kernel designed for uncompromised responsiveness in interactive systems, enabling low latency compute in A/V production, and reduced frame time deviations in games."
+XANMOD_RELD="20260319"
+XANMOD_RELF="gdd13d1c"
+
+MY_PV="${PV}-"
+DESCRIPTION="XanMod is a general-purpose Linux kernel distribution with custom settings and new features. Built to provide a stable, smooth and solid system experience."
 HOMEPAGE="
-	https://liquorix.net/
+	https://xanmod.org/
+	https://sourceforge.net/projects/xanmod/
 "
 LICENSE="GPL-2"
 KEYWORDS="-* ~amd64"
 SLOT="0"
 
-IUSE="+dracut"
+IUSE="+dracut +x64v3 x64v2"
 
-SRC_URI="https://liquorix.net/debian/pool/main/l/linux-liquorix/linux-image-${MY_PV}_${K_VER}~trixie_amd64.deb"
+SRC_URI_X64V2="https://downloads.sourceforge.net/xanmod/releases/main/${PV}-xanmod1/${PV}-${XANMOD_REL_V2}/linux-image-${PV}-${XANMOD_REL_V2}_${PV}-${XANMOD_REL_V2}-0~${XANMOD_RELD}.${XANMOD_RELF}_amd64.deb"
+SRC_URI_X64V3="https://downloads.sourceforge.net/xanmod/releases/main/${PV}-xanmod1/${PV}-${XANMOD_REL_V3}/linux-image-${PV}-${XANMOD_REL_V3}_${PV}-${XANMOD_REL_V3}-0~${XANMOD_RELD}.${XANMOD_RELF}_amd64.deb"
+
+SRC_URI="
+	x64v2? ( ${SRC_URI_X64V2} )
+	x64v3? ( ${SRC_URI_X64V3} )
+"
 
 RESTRICT="mirror strip"
 
 RDEPEND="
-	!sys-kernel/liquorix-kernel:${SLOT}
+	!sys-kernel/xanmod-kernel:${SLOT}
 	dracut? ( sys-kernel/dracut )
 "
 
@@ -42,11 +52,13 @@ src_install()
 
 pkg_postinst() {
 	if use dracut ; then
-		einfo "Generating modules.dep for kernel"
-		if depmod -a "${MY_PV}"; then
-			einfo "modules.dep successfully generated! on ${D}/lib/modules/${MY_PV}"
+		if use x64v2; then
+			MY_PV="${MY_PV}${XANMOD_REL_V2}"
+		elif use x64v3; then
+			MY_PV="${MY_PV}${XANMOD_REL_V3}"
 		else
-			die "Failed to generate modules.dep for kernel: ${MY_PV}"
+			ewarn "neither x64v2 or x64v3 use flags is not enabled!"
+			die
 		fi
 
 		einfo "Generating initramfs for kernel: ${MY_PV}"

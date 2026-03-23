@@ -58,9 +58,9 @@ src_install()
 	fperms 755 "${dir}/chrome-sandbox"
 	fperms 755 "${dir}/chrome_crashpad_handler"
 
-	make_wrapper code "${dir}/bin/code"
+	make_wrapper "code-bin" "${dir}/bin/code"
 	newicon "resources/app/resources/linux/code.png" "${PN}.png"
-	make_desktop_entry code "Visual Studio Code" "${PN}" "Development;IDE"
+	make_desktop_entry "code-bin" "Visual Studio Code" "${PN}" "Development;IDE"
 }
 
 
