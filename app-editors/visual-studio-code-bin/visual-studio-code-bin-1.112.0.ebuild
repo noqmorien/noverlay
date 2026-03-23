@@ -1,7 +1,6 @@
 # Copyright 2020-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-
 EAPI=8
 
 inherit desktop wrapper
@@ -59,9 +58,9 @@ src_install()
 	fperms 755 "${dir}/chrome-sandbox"
 	fperms 755 "${dir}/chrome_crashpad_handler"
 
-	make_wrapper "${PN}" "${dir}/bin/code"
+	make_wrapper code "${dir}/bin/code"
 	newicon "resources/app/resources/linux/code.png" "${PN}.png"
-	make_desktop_entry "${PN}" "Visual Studio Code" "${PN}" "Development;IDE"
+	make_desktop_entry code "Visual Studio Code" "${PN}" "Development;IDE"
 }
 
 
